@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIS Test Page - Windows Server</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+        }
+        
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #495057;
+            margin-top: 0;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .info-card h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #28a745;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .test-results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 IIS Test Page</h1>
+            <p class="subtitle">Windows Server Web Services Test</p>
+            <span class="status success">✓ IIS is Running</span>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Server Information</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Server Details</h3>
+                    <p><strong>Server:</strong> <span id="serverInfo">Loading...</span></p>
+                    <p><strong>Page Loaded:</strong> <span id="loadTime"></span></p>
+                    <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+                </div>
+                <div class="info-card">
+                    <h3>Connection Status</h3>
+                    <p><strong>Protocol:</strong> <span id="protocol"></span></p>
+                    <p><strong>Host:</strong> <span id="hostname"></span></p>
+                    <p><strong>Port:</strong> <span id="port"></span></p>
+                </div>
+                <div class="info-card">
+                    <h3>Browser Info</h3>
+                    <p><strong>Language:</strong> <span id="language"></span></p>
+                    <p><strong>Platform:</strong> <span id="platform"></span></p>
+                    <p><strong>Cookies Enabled:</strong> <span id="cookiesEnabled"></span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔧 Functionality Tests</h2>
+            <p>Click the buttons below to test various web server features:</p>
+            
+            <button class="btn" onclick="testJavaScript()">Test JavaScript</button>
+            <button class="btn" onclick="testAjax()">Test AJAX</button>
+            <button class="btn" onclick="testLocalStorage()">Test Local Storage</button>
+            <button class="btn" onclick="testCookies()">Test Cookies</button>
+            <button class="btn" onclick="testFormSubmission()">Test Forms</button>
+            
+            <div class="test-results" id="testResults">
+                <strong>Test Results:</strong><br>
+                <span id="results">Click a test button to see results here...</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📝 Sample Form</h2>
+            <form id="testForm" onsubmit="handleFormSubmit(event)">
+                <p>
+                    <label for="name"><strong>Name:</strong></label><br>
+                    <input type="text" id="name" name="name" style="width: 300px; padding: 8px; margin: 5px 0;">
+                </p>
+                <p>
+                    <label for="email"><strong>Email:</strong></label><br>
+                    <input type="email" id="email" name="email" style="width: 300px; padding: 8px; margin: 5px 0;">
+                </p>
+                <p>
+                    <label for="message"><strong>Message:</strong></label><br>
+                    <textarea id="message" name="message" rows="4" style="width: 300px; padding: 8px; margin: 5px 0;"></textarea>
+                </p>
+                <button type="submit" class="btn">Submit Test Form</button>
+            </form>
+        </div>
+        
+        <div class="section">
+            <h2>🌐 Network Information</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Connection Details</h3>
+                    <p><strong>Referrer:</strong> <span id="referrer"></span></p>
+                    <p><strong>Online Status:</strong> <span id="onlineStatus"></span></p>
+                </div>
+                <div class="info-card">
+                    <h3>Screen Information</h3>
+                    <p><strong>Screen Resolution:</strong> <span id="screenResolution"></span></p>
+                    <p><strong>Available Size:</strong> <span id="availableSize"></span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🖥️ <strong>IIS Windows Server Test Page</strong> | Generated on <span id="generatedDate"></span></p>
+            <p>This page tests basic IIS functionality and web server features.</p>
+        </div>
+    </div>
+
+    <script>
+        // Load server and browser information
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('serverInfo').textContent = window.location.host || 'Local Server';
+            document.getElementById('loadTime').textContent = new Date().toLocaleString();
+            document.getElementById('userAgent').textContent = navigator.userAgent.substring(0, 80) + '...';
+            document.getElementById('protocol').textContent = window.location.protocol;
+            document.getElementById('hostname').textContent = window.location.hostname || 'localhost';
+            document.getElementById('port').textContent = window.location.port || '80';
+            document.getElementById('language').textContent = navigator.language;
+            document.getElementById('platform').textContent = navigator.platform;
+            document.getElementById('cookiesEnabled').textContent = navigator.cookieEnabled ? 'Yes' : 'No';
+            document.getElementById('referrer').textContent = document.referrer || 'Direct Access';
+            document.getElementById('onlineStatus').textContent = navigator.onLine ? 'Online' : 'Offline';
+            document.getElementById('screenResolution').textContent = screen.width + 'x' + screen.height;
+            document.getElementById('availableSize').textContent = screen.availWidth + 'x' + screen.availHeight;
+            document.getElementById('generatedDate').textContent = new Date().toLocaleDateString();
+        });
+
+        function updateResults(message) {
+            document.getElementById('results').innerHTML = message;
+        }
+
+        function testJavaScript() {
+            let result = "✅ JavaScript is working correctly!<br>";
+            result += "Current time: " + new Date().toLocaleTimeString();
+            updateResults(result);
+        }
+
+        function testAjax() {
+            updateResults("🔄 Testing AJAX...");
+            
+            // Simple AJAX test to the same page
+            fetch(window.location.href)
+                .then(response => response.ok ? "✅ AJAX request successful!" : "❌ AJAX request failed")
+                .then(result => updateResults(result + "<br>Response received at: " + new Date().toLocaleTimeString()))
+                .catch(error => updateResults("❌ AJAX Error: " + error.message));
+        }
+
+        function testLocalStorage() {
+            try {
+                let testKey = 'iis-test-' + Date.now();
+                let testValue = 'IIS Test Data';
+                localStorage.setItem(testKey, testValue);
+                let retrieved = localStorage.getItem(testKey);
+                localStorage.removeItem(testKey);
+                
+                if (retrieved === testValue) {
+                    updateResults("✅ Local Storage is working correctly!<br>Test data stored and retrieved successfully.");
+                } else {
+                    updateResults("❌ Local Storage test failed - data mismatch.");
+                }
+            } catch (error) {
+                updateResults("❌ Local Storage Error: " + error.message);
+            }
+        }
+
+        function testCookies() {
+            try {
+                let testCookie = 'iistest=' + Date.now() + '; path=/';
+                document.cookie = testCookie;
+                
+                if (document.cookie.includes('iistest=')) {
+                    updateResults("✅ Cookies are working correctly!<br>Test cookie set successfully.");
+                } else {
+                    updateResults("❌ Cookie test failed - unable to set cookie.");
+                }
+            } catch (error) {
+                updateResults("❌ Cookie Error: " + error.message);
+            }
+        }
+
+        function testFormSubmission() {
+            updateResults("✅ Form submission test ready!<br>Fill out the form above and click submit to test form processing.");
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let message = document.getElementById('message').value;
+            
+            let result = "✅ Form submission test successful!<br>";
+            result += "<strong>Submitted data:</strong><br>";
+            result += "Name: " + (name || 'Not provided') + "<br>";
+            result += "Email: " + (email || 'Not provided') + "<br>";
+            result += "Message: " + (message || 'Not provided') + "<br>";
+            result += "Submitted at: " + new Date().toLocaleTimeString();
+            
+            updateResults(result);
+        }
+
+        // Test for online/offline events
+        window.addEventListener('online', function() {
+            updateResults("🌐 Connection restored - back online!");
+        });
+
+        window.addEventListener('offline', function() {
+            updateResults("🔌 Connection lost - gone offline!");
+        });
+    </script>
+</body>
+</html>
